@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- header - datum -->
+        <h3 class="body__day">nap</h3>
+        <p class="body__date">date</p>
+
+        <!-- input new task mezo -->
+        <div class="body__todo-insert">
+            <input class="newTaskInput" type="text" placeholder="new task ...">
+            <button class="addButton">Add</button>
+        </div>
+
+        <!-- display todos js-bol-->
+        <p> <span class="todo__number">0</span>pending items</p>
+
+        <!-- todo list js-bol folyamatban-->
+        <div class="todo__list--pending">
+
+        </div>
+        <!-- todo list js-bol elvegzett -->
+        <div class="todo__list--done">
+
+            <!-- footer menu -->
+            <div class="todo__footer">
+                <button class="footer__btn--complete">Show complete</button>
+                <button class="footer__btn--clear"> clear all</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* teszt objectum */
+        (function() {
+            let todos = [{
+                title: 'ebed baratokkal',
+                content: true
+            }, {
+                title: 'iratrendezes',
+                content: false
+            }];
+
+            /* het napjai */
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+            /* parts of date */
+            const bodyDay = document.querySelector('.body__day');
+            const bodyDate = document.querySelector('.body__date');
+
+            /* plusz gomb meghatarozni */
+            const todoAddBtn = document.querySelector('.addButton');
+
+            /* input mezo meghatarozni */
+            const todoInput = document.querySelector('.newTaskInput');
+
+            const todoListPending = document.querySelector('todo__list--pending');
+
+            /* local storage kezelo objectum beallitja,lekerdezi,eltavolitja a local storage bejegyzeseit*/
+            const localDB = {
+                setItem(key, value) {
+                    value = JSON.stringify(value);
+                    localStorage.setItem(key, value);
+                },
+                getItem(key) {
+                    const value = localStorage.getItem(key);
+                    if (!value) {
+                        return null;
+                    }
+                    return JSON.parse(value);
+                },
+                removeItem(key) {
+                    localStorage.removeItem(key);
+                }
+            };
+
+            /* init fuggveny */
+            const init = () => {
+                const savedTodos = localDB.getItem('todos');
+                if (savedTodos) {
+                    todos = savedTodos;
+                }
+                showDate();
+                setListeners();
+            };
+
+
+            /* show date */
+            const showDate = () => {
+                const currentDate = new Date();
+                const day = [currentDate.getFullYear(), currentDate.getMinutes() + 1, currentDate.getDate()].map(num => num < 10 ? `0${num}` : num);
+                const dayName = dayNames[currentDate.getDay()];
+                bodyDay.textContent = dayNames[currentDate.getDay()];
+                bodyDate.textContent = day.join('-');
+            };
+
+            /* plusz gomb esemenykezelese */
+            const setListeners = () => {
+                todoAddBtn.addEventListener('click', addNewTodo);
+            };
+            /* save and add todo to DB */
+            const addNewTodo = () => {
+                const value = todoInput.value;
+                if (value === '') {
+                    alert('please type the todo');
+                    return;
+                }
+
+                const todo = {
+                    text: value,
+                    done: false
+                };
+
+                todos.push(todo);
+
+                localDB.setItem('todoList', todos);
+                /* value.textContent = ''; */
+            };
+
+
+            /* show todo in the list */
+            const showTodo = todo => {
+                todo__list--pending
+            };
+
+
+
+
+            init();
+        })();
+    </script>
+</body>
+
+</html>

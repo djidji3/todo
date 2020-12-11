@@ -6,26 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TODO</title>
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/main.css">
     <style></style>
 </head>
 
 <body>
-    <div id="myDIV" class="header">
-        <h2 style="margin:5px">My To Do List</h2>
-        <input type="text" id="myInput" placeholder="Title...">
-        <span onclick="newElement()" class="addBtn">Add</span>
+
+    <div class="container">
+        <!--  datum ido nap megjelenites -->
+        <h3 class="body__day">nap</h3>
+        <p class="body__date">date</p>
+
+        <!-- input new task mezo -->
+        <div class="body__todo-insert">
+            <input class="newTaskInput" type="text" placeholder="new task ...">
+            <button class="addButton">+</button>
+        </div>
+
+        <!-- display todos js-bol-->
+        <p> <span class="pendingItemsCounter">0</span>pending items</p>
+
+
+        <!-- todo list js-bol kiiratva -->
+        <div class="todo__list">
+            <div class="todo__list--done">
+                <ul class="ul">
+                    <li>Hit the gym</li>
+                    <li class="checked ">Pay bills</li>
+                    <li class="checked ">Pay bills</li>
+
+                </ul>
+
+                <!-- footer menu -->
+                <div class="footer">
+                    <button class="footer__btn--complete">Show complete</button>
+                    <button class="footer__btn--clear"> clear all</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <ul id="myUL">
-        <li>Hit the gym</li>
-        <li class="checked">Pay bills</li>
-        <li>Meet George</li>
-        <li>Buy eggs</li>
-        <li>Read a book</li>
-        <li>Organize office</li>
-    </ul>
-    <script src="./js/main.js"></script>
+
+    <script src="./js/main.js "></script>
 </body>
 
 </html>

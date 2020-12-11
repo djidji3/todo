@@ -1,7 +1,7 @@
-@font-face {
+/* @font-face {
     font-family: myFont;
     src: url(../fonts/Cyberverse.otf);
-}
+} */
 
 html {
     font-size: 16px;
@@ -41,9 +41,6 @@ ul li {
     font-size: 18px;
     transition: 0.2s;
     /* make the list items unselectable */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -58,7 +55,7 @@ ul li:nth-child(odd) {
 /* Darker background-color on hover */
 
 ul li:hover {
-    background: rgb(69, 21, 146);
+    background: gb(69, 21, 146);
 }
 
 
@@ -104,7 +101,7 @@ ul li.checked::before {
 
 /* Style the header */
 
-.header {
+.container {
     background-color: #f44336;
     padding: 30px 40px;
     color: white;
@@ -114,7 +111,7 @@ ul li.checked::before {
 
 /* Clear floats after the header */
 
-.header:after {
+.container:after {
     content: "";
     display: table;
     clear: both;
@@ -136,7 +133,7 @@ input {
 
 /* Style the "Add" button */
 
-.addBtn {
+.addButton {
     padding: 10px;
     width: 25%;
     background: #d9d9d9;
