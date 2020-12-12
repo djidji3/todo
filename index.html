@@ -14,6 +14,7 @@
 <body>
 
     <div class="container">
+        <div class="header">Feladat manager</div>
         <!--  datum ido nap megjelenites -->
         <h3 class="body__day">nap</h3>
         <p class="body__date">date</p>
@@ -24,27 +25,42 @@
             <button class="addButton">+</button>
         </div>
 
-        <!-- display todos js-bol-->
-        <p> <span class="pendingItemsCounter">0</span>pending items</p>
-
 
         <!-- todo list js-bol kiiratva -->
         <div class="todo__list">
-            <div class="todo__list--done">
-                <ul class="ul">
-                    <li>Hit the gym</li>
-                    <li class="checked ">Pay bills</li>
-                    <li class="checked ">Pay bills</li>
 
+            <p> <span class="pendingItemsCounter">0 </span> feladat vár elvégzésre</p>
+
+            <div class="todo__list--pending">
+                <ul>
+                    <li>task1</li>
                 </ul>
-
-                <!-- footer menu -->
-                <div class="footer">
-                    <button class="footer__btn--complete">Show complete</button>
-                    <button class="footer__btn--clear"> clear all</button>
-                </div>
             </div>
+
+            <p> <span class="doneItemsCounter">0 </span> feladatot elvégeztél</p>
+            <div class="todo__list--done">
+                <ul>
+                    <li>task1 kesz</li>
+                </ul>
+            </div>
+
+
         </div>
+
+
+
+
+
+
+
+
+        <!-- footer menu -->
+        <div class="footer">
+            <button class="footer__btn--complete">Show complete</button>
+            <button class="footer__btn--clear"> clear all</button>
+        </div>
+    </div>
+    </div>
     </div>
 
 

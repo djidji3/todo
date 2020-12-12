@@ -1,18 +1,16 @@
 'use strict';
 
-/* hasznalt html elemazonositok */
+/* hasznalt htmlelem azonositok */
 let day = document.querySelector('.body__day');
 let date = document.querySelector('.body__date');
 let newTaskInput = document.querySelector('.newTaskInput');
 let addButton = document.querySelector('.addButton');
 let actualTodoNumber = document.querySelector('.todo__number');
 let pendingItemsCounter = document.querySelector('.pendingItemsCounter');
-let doneItemsCounter = document.querySelector('.doneItemsCounter');
 let todoListItems = document.querySelector('.todo__list--items');
 let todoList = document.querySelector('.todo__list');
-let todoListPending = document.querySelector('.todo__list--pending');
 let todoListDone = document.querySelector('.todo__list--done');
-/* let ul = document.querySelector('.ul');  */
+let ul = document.querySelector('.ul');
 let footer = document.querySelector('.footer');
 let footerBtnComplete = document.querySelector('.footer__btn--complete');
 let footerBtnClear = document.querySelector('.footer__btn--clear');
@@ -67,123 +65,76 @@ const storageManager = {
     /* storageManager.removeTodoItems('feladatok'); */
     removeTodoItems(key) {
         localStorage.removeItem(key);
-    },
-    /* storageManager.clearTodoItems('feladatok'); */
-    clearTodoItems(key) {
-        localStorage.clear(key);
     }
 };
 
 
 /* SEGEDFUGGVENY: localStorage adatainak beolvasasa 'todos' objectumba, ha vannak adatok*/
-function loadInput2Todos() {
-    /* ellenorzom hogy lett-e vmi beirva a bevitelimezobe */
-    const task = newTaskInput.value;
-    if (task === '') {
-        alert('Please type a todo !');
-        return;
-    }
-    /* todo objectuma igy nez ki */
-    /* task attributom a bevitelimezo tartalma */
-    /* ('status' megmondja hogy el van-e vegezve a feladat) */
-    const todo = {
-        task: task,
-        status: false
-    };
-
-    /* a todo objectumot feltoltjuk a todos tombbe */
-    todos.push(todo);
-    /* li lista tartalmat uritjuk */
-
-    /* betoltjuk a todos tartalmat az li-be */
-    loadTodo2Li(todo);
-
-    /*frissitjuk az elvegezendo feladatok szamat */
-    refreshPendingItemsCounter();
-
-    /* localStorage-ba a feltoljuk a todos tartalmat 'feladatok' neven */
-    loadTodos2LocalStorage('feladatok', todos);
-};
-
-
-/* SEGEDFUGGVENY: egy todo-t megjeleni a listaban */
-function loadTodo2Li(todo) {
-    let ul = document.createElement('ul');
-    todoListPending.appendChild(ul);
-    let li = document.createElement('li');
-    ul.appendChild(li);
-    li.innerHTML = todo.task;
-
-
-    /*  let ul = document.querySelector('.ul');
-     pendingItemsCounter.appendChild(ul);
-     let li = document.createElement('li');
-     ul.appendChild(li);
-     li.innerHTML = todo.task;
-
-     newTaskInput.value = ''; */
-};
-/* SEGEDFUGGVENY: todos-t  megjeleniti a listaban */
-function loadTodos2Li() {
-    if (todos && Array.isArray(todos)) {
-        todos.forEach(item => loadTodo2Li(item));
-
-    }
-};
-
-/* a todos tartalmat feltoljuk a localStorage-ba 'feladatok' neven */
-/*igy kell meghivni loadTodos2LocalStorage('feladatok', todos); */
-function loadTodos2LocalStorage(key, value) {
-    storageManager.setTodoItem(key, value);
-};
-
-
-/* SEGEDFUGGVENY: localStorage adatainak beolvasasa 'todos' objectumba, ha vannak adatok*/
-function loadLocalStorage2Todos() {
+function loadExistingLocalStorageItemsToTodo() {
     const savedTodos = storageManager.getTodoItem('feladatok');
     if (savedTodos) {
         todos = savedTodos;
     }
 };
 
-/* frissiti a folyamatban levo task-ok szamat jelzo mezot */
-function refreshPendingItemsCounter() {
-    let feladatok = todos;
-    let counter = 0;
-    feladatok.map((item) => {
-        if (item.status === false) {
-            counter += 1;
-        }
-    })
-    pendingItemsCounter.innerText = counter;
+/* SEGEDFUGGVENY: a parameterkent kapott todo-t megjelenitem a listaban */
+function showTodo(todo) {
+    let li = document.createElement('li');
+    ul.appendChild(li);
+    li.innerHTML = `${todo}`;
 
+    newTaskInput.value = '';
 };
 
-/* torli az osszes feladatot */
-/* clearAllTodos('feladatok'); */
-function clearAllTodos() {
-    todos = [];
-    storageManager.clearTodoItems('feladatok');
-
-
-
-
+/* SEGEDFUGGVENY: todos objectumban levo elemeket betoltom a listaba a showTodo segitsegevel  */
+function loadExistingTodoItems() {
+    if (todos && Array.isArray(todos)) {
+        /*   todos.forEach(todo => console.log(todo.text)); */
+        todos.forEach(item => showTodo(item.task));
+    }
 };
 
-/*                            ESEMENYKEZELO FUGGVENYEK */
+/* SEGEDFUGGVENY: newTaskInput bevitelimezonek a tartalmat hozzaadom  */
+/* a todos objectumhoz,majd a localstorage-hoz */
+const addNewTodo = () => {
+    /* ellenorzom hogy lett-e vmi beirva a bevitelimezobe */
+    const task = newTaskInput.value;
+    if (task === '') {
+        alert('Please type a todo !');
+        return;
+    }
+    /* todo objectuma igy nez ki ('status' megmondja hogy el van-e vegezve a feladat)*/
+    const todo = {
+        task: task,
+        status: false
+    };
+
+    /* az objectumot feltoltjuk a todos tombbe */
+    todos.push(todo);
+
+    /* a todos tartalmat feltoljuk a localStorage-ba 'feladatok' neven */
+    storageManager.setTodoItem('feladatok', todos);
+
+    /* newTaskInput bevitelimezonek a tartalmat megjelenitem a listaban */
+    showTodo(newTaskInput.value);
+};
+
+
+
+/*  SEGEDFUGGVENY:      ESEMENYKEZELO FUGGVENYEK */
 /* + gombra kattintaskor */
-addButton.addEventListener('click', loadInput2Todos);
+addButton.addEventListener('click', addNewTodo);
 
-/* 'Clear All' gombra kattintaskor */
-footerBtnClear.addEventListener('click', clearAllTodos);
-
-
-/*                                  MAIN */
+/* MAIN */
 displayDayOfTheWeek();
 displayDate();
-loadLocalStorage2Todos();
-loadTodos2Li();
-refreshPendingItemsCounter();
+loadExistingLocalStorageItemsToTodo();
+loadExistingTodoItems();
+addNewTodo();
+
+
+
+
 
 
 
