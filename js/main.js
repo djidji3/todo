@@ -8,11 +8,12 @@ let addButton = document.querySelector('.addButton');
 let actualTodoNumber = document.querySelector('.todo__number');
 let pendingItemsCounter = document.querySelector('.pendingItemsCounter');
 let doneItemsCounter = document.querySelector('.doneItemsCounter');
-let todoListItems = document.querySelector('.todo__list--items');
+let todoListItems = document.querySelectorAll('.todo__list--item');
 let todoList = document.querySelector('.todo__list');
 let todoListPending = document.querySelector('.todo__list--pending');
 let todoListDone = document.querySelector('.todo__list--done');
-/* let ul = document.querySelector('.ul');  */
+let todoListDeleteBtn = document.querySelectorAll('.todo__list--deleteBtn')
+let taskRow = document.querySelectorAll('.todo__list--item');
 let footer = document.querySelector('.footer');
 let footerBtnComplete = document.querySelector('.footer__btn--complete');
 let footerBtnClear = document.querySelector('.footer__btn--clear');
@@ -64,9 +65,9 @@ const storageManager = {
         return JSON.parse(value);
 
     },
-    /* storageManager.removeTodoItems('feladatok'); */
-    removeTodoItems(key) {
-        localStorage.removeItem(key);
+    /* storageManager.removeTodoItem('feladat1'); */
+    removeTodoItem(key, value) {
+        localStorage.removeItem(key, value.task);
     },
     /* storageManager.clearTodoItems('feladatok'); */
     clearTodoItems(key) {
@@ -96,7 +97,7 @@ function loadInput2Todos() {
     /* li lista tartalmat uritjuk */
 
     /* betoltjuk a todos tartalmat az li-be */
-    loadTodo2Li(todo);
+    loadTodo2Div(todo);
 
     /*frissitjuk az elvegezendo feladatok szamat */
     refreshPendingItemsCounter();
@@ -106,29 +107,50 @@ function loadInput2Todos() {
 };
 
 
-/* SEGEDFUGGVENY: egy todo-t megjeleni a listaban */
-function loadTodo2Li(todo) {
-    let ul = document.createElement('ul');
+/* SEGEDFUGGVENY: egy todo-t megjeleniti a listaban */
+function loadTodo2Div(todo) {
+    let todoItem = document.createElement('div');
+    todoItem.className = 'todo__list--item';
+    todoListPending.appendChild(todoItem);
+    todoItem.innerHTML = `
+    <input type="checkbox" name="" id="">
+    <span class='task'>${todo.task}</span>
+    <button class='todo__list-deleteBtn'>Törlés</button>
+    `;
+
+    newTaskInput.value = '';
+
+    /*    let ul = document.createElement('ul');
     todoListPending.appendChild(ul);
-    let li = document.createElement('li');
-    ul.appendChild(li);
+    let li = document.createElement('LI');
+    li.className = 'todo__list--item';
     li.innerHTML = todo.task;
-
-
-    /*  let ul = document.querySelector('.ul');
-     pendingItemsCounter.appendChild(ul);
-     let li = document.createElement('li');
-     ul.appendChild(li);
-     li.innerHTML = todo.task;
-
-     newTaskInput.value = ''; */
+    ul.appendChild(li);
+    let span = document.createElement("SPAN");
+    span.className = "close";
+    li.appendChild('span');
+    let txt = document.createTextNode("\u00D7");
+    li.appendChild(txt);
+    newTaskInput.value = '';
+ */
 };
-/* SEGEDFUGGVENY: todos-t  megjeleniti a listaban */
+
+
+/* SEGEDFUGGVENY: todos-t  megjelenitese a listaban */
 function loadTodos2Li() {
     if (todos && Array.isArray(todos)) {
-        todos.forEach(item => loadTodo2Li(item));
+        todos.forEach(item => loadTodo2Div(item));
+    }
+};
+
+/* SEGEDFUGGVENY: li listaelemek torlese a listaban */
+function removeLiItems() {
+    let todoListItems = document.querySelectorAll('.todo__list--item');
+    for (let i = 0; i < todoListItems.length; i += 1) {
+        todoListItems[i].remove();
 
     }
+
 };
 
 /* a todos tartalmat feltoljuk a localStorage-ba 'feladatok' neven */
@@ -156,19 +178,51 @@ function refreshPendingItemsCounter() {
         }
     })
     pendingItemsCounter.innerText = counter;
-
 };
 
-/* torli az osszes feladatot */
+/* frissiti az elvegzett task-ok szamat jelzo mezot */
+function refreshDoneItemsCounter() {
+    let feladatok = todos;
+    let counter = 0;
+    feladatok.map((item) => {
+        if (item.status === true) {
+            counter += 1;
+        }
+    })
+    doneItemsCounter.innerText = counter;
+};
+
+/* egy todo elem torlese */
+function deleteTodoItem(todo) {
+    storageManager.removeTodoItems(todo)
+}
+
+
+/* torli az osszes feladatot, localstorage tartalmat, li elemeket */
 /* clearAllTodos('feladatok'); */
 function clearAllTodos() {
     todos = [];
     storageManager.clearTodoItems('feladatok');
-
-
-
-
+    removeLiItems();
+    refreshPendingItemsCounter();
 };
+
+/* torol egy sort a feladat listabol */
+function deleteTaskRow(event) {
+    if (event.target.className === 'todo__list-deleteBtn') {
+        let task = (event.target.parentElement.children[1].innerText);
+        console.log(task);
+        let taskParent = event.target.parentElement;
+        taskParent.remove();
+        todos.forEach(function(element, index) {
+            if (element.task === task)
+                todos.splice(index, 1)
+        })
+    }
+    loadTodos2LocalStorage('feladatok', todos);
+};
+
+
 
 /*                            ESEMENYKEZELO FUGGVENYEK */
 /* + gombra kattintaskor */
@@ -177,6 +231,8 @@ addButton.addEventListener('click', loadInput2Todos);
 /* 'Clear All' gombra kattintaskor */
 footerBtnClear.addEventListener('click', clearAllTodos);
 
+/* bmelyik todo elemen valo kattintaskor hivodik meg */
+todoList.addEventListener('click', deleteTaskRow);
 
 /*                                  MAIN */
 displayDayOfTheWeek();
@@ -211,8 +267,16 @@ refreshPendingItemsCounter();
 
 
 /* regibol maradt */
-
-var myNodelist = document.getElementsByTagName("LI");
+/* 
+let myNodelist = document.getElementsByTagName("LI");
+for (let i = 0; i < myNodelist.length; i++) {
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\u00D7");
+    span.className = "close";
+    span.appendChild(txt);
+    myNodelist[i].appendChild(span);
+} */
+/* var myNodelist = document.getElementsByTagName("LI");
 var i;
 for (i = 0; i < myNodelist.length; i++) {
     var span = document.createElement("SPAN");
@@ -220,7 +284,7 @@ for (i = 0; i < myNodelist.length; i++) {
     span.className = "close";
     span.appendChild(txt);
     myNodelist[i].appendChild(span);
-}
+} */
 
 // Click on a close button to hide the current list item
 var close = document.getElementsByClassName("close");
