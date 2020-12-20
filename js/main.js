@@ -211,7 +211,7 @@ function clearAllTodos() {
 function deleteTaskRow(event) {
     if (event.target.className === 'todo__list-deleteBtn') {
         let task = (event.target.parentElement.children[1].innerText);
-        console.log(task);
+        /* console.log(task); */
         let taskParent = event.target.parentElement;
         taskParent.remove();
         todos.forEach(function(element, index) {
