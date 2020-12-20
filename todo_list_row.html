@@ -6,167 +6,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div {
-            margin: 14px;
+        .container {
+            height: 600px;
+            background-color: brown;
+            border-radius: 10px;
+
         }
-        
-        .class5 {
-            width: 100%;
-            padding: 15px;
-            background-color: coral;
-            color: white;
-            font-size: 25px;
-            box-sizing: border-box;
+
+        .row {
+            max-width: 90%;
+            display: flex;
+            height: 40px;
+
+            background-color: blueviolet;
+            text-align: center;
+            font-size: 2rem;
+            border-radius: 10px;
+            align-items: center;
+            margin-left: 5%;
+            margin-top: 4px;
+            justify-content: center;
         }
-        
-        .class7 {
-            width: 100%;
-            padding: 15px;
-            background-color: rgb(97, 66, 55);
-            color: white;
-            font-size: .6rem;
-            box-sizing: border-box;
+        .row:hover{
+            background-color: rgb(114, 30, 192);
+            cursor: cell;
         }
-        
+
         .pipa {
-            transform: rotate(35deg);
+            transform: rotate(45deg);
+            width: 20px;
+            margin-left: 20px;
+          /*   background-color: rgb(27, 136, 76); */
             font-size: 2rem;
+            align-items: center;
         }
-        
-        .x {
-            /*  transform: rotate(35deg); */
-            font-size: 2rem;
+        .pipa:hover{
+            cursor:grab;
         }
-        
+
         .feladat {
-            /*  transform: rotate(35deg); */
-            font-size: 2rem;
+            margin: auto;
+           /*  background-color: rgb(27, 136, 76); */
+        }
+
+        .x {
+            width: 20px;
+            margin-right: 20px;
+            /* background-color: rgb(27, 136, 76); */
+            font-size: 1.5rem;
+            align-content: center;
+        }
+        .x:hover{
+            cursor:grab;
         }
     </style>
 </head>
 
 <body>
-    <p class="p">Huzd folem az egeret</p>
-    <div>
-        <button class="gomb">Mi a this</button>
-    </div>
-    <div class="class2">
-        <button class="gomb2">Mi az event.type es egyeb tulajdonsagok</button>
-    </div>
-    <div class="class1">
-        <button class="gomb1">arraw function eseten mi a this/eventCurrentTarget</button>
-    </div>
-    <div class="class3">
-        <button class="gomb3 masclass">tulajdonsag lekerdezes/modositas a this/event segitsegevel</button>
-    </div>
-    <div class="class4">
-        <button class="gomb4 myClass">tulajdonsag modositasa, a this/event segitsegevel</button>
-    </div>
-    <div class="class6">
-        <button>A szivecskere kattints
-            <small>&#128151</small>
-        </button>
-
-        <button class="class7">
+    <div class="container">
+        <!-- egy sor -->
+        <div class="row">
             <div class="pipa">
                 <small>&#8515</small>
             </div>
             <div class="feladat">
                 Feladat1
             </div>
-            <div>
+            <div class="x">
                 <small class="x">&#9587</small>
             </div>
-        </button>
-    </div>
-
-    <div class='' id="pID">
-        <p class="">Ez a p elem egy div-ben van, a div osztalyat modositom ha ide kattintasz</p>
-
+        </div>
     </div>
 
     <script>
-        const btn = document.querySelector('.gomb');
-        const btn1 = document.querySelector('.gomb1');
-        const btn2 = document.querySelector('.gomb2');
-        const btn3 = document.querySelector('.gomb3');
-        const btn4 = document.querySelector('.gomb4');
-        const btn6 = document.querySelector('.gomb6');
-        const body = document.querySelector('body');
-        const pID = document.querySelector('#pID');
+        let container = document.querySelector('.container');
+        function createTodoRow(tartalom){
+        let elem = `
+            <div class="row">
+            <div class="pipa">
+                <small>&#8515</small>
+            </div>
+            <div class="feladat">
+                ${tartalom}
+            </div>
+            <div class="x">
+                <small class="x">&#9587</small>
+            </div>
+        </div>
+        `;
+        container.insertAdjacentHTML('beforeend', elem);
 
-        const inputs = document.querySelector('input');
-        /* ---------------------------------------------------------------------------------------- */
-        /* az esemeny fuggvenyt kozvetlenul adtam meg */
-        btn.addEventListener('click', function() {
-            console.log('A this az, ami kivaltotta az esemenyt: ', this);
-        });
-        /* ---------------------------------------------------------------------------------------- */
-        /* az esemeny megadhato arrow function segitsegevel is */
-        /* az arrow function nem bindolja a this-t */
-        /* arrow function eseten a event.currentTarget mondja meg hogy melyik elemen tortent az esemeny */
-        btn1.addEventListener('click', () => {
-            console.log('arrow function eseten a this a szulo elem: ', this);
-            console.log('arrow function eseten a event.currentTarget mondja meg hogy melyik elemen tortent az esemeny: ', event.currentTarget);
-        });
-        /* ---------------------------------------------------------------------------------------- */
-        /* ha a gombon belul a szivecskere kattintok akkor az event.target a small elem lesz */
-        /* ha a gombra  kattintok akkor az event.target a gomb lesz */
-        /* de a event.currentTarget mindig a gomb lesz */
-        btn6.addEventListener('click', () => {
-            console.log('this: ', this);
-            console.log('event.currentTarget: ', event.currentTarget);
-            console.log('event.target: ', event.target);
-        });
+    };
 
-        /* ------------------------------------------------------------------------------------------------ */
-        /* ha a fuggvenyemnek adok egy parametert, ez az elso parameter mindig maga az esemeny lesz */
-        /* az esemenynek vannak tulajdonsagai amit lekerdezhetek az event/this segitsegevel  */
-        btn2.addEventListener('click', function(esemeny) {
-            console.log('Esemeny tipusa: ', esemeny.type);
-            console.log('Esemeny celja: ', esemeny.target);
-            console.log('Esemeny jelenlegi celja: ', esemeny.currentTarget);
-            console.log('Osztaly nev: ', this.className);
-            console.log('Osztaly lista: ', this.classList);
-            console.log('Szulo Osztaly nev: ', this.parentElement.className);
-        });
 
-        /* -------------------------------------------------------------------------------------------- */
-        /* ha a this,az amin kattintottam,akkor annak tulajdonsagait lekerdezhetem/beallithatom */
-        btn3.addEventListener('click', function(esemeny) {
-            console.log('className: ', this.className);
-            console.log('classList: ', this.classList);
-            this.className = 'masikClass';
-            this.classList = 'harmadikClass gomb';
-            console.log('A modositott classList: ', this.classList);
-        });
 
-        btn4.addEventListener('click', function(esemeny) {
-            console.log('Eredeti className', this.className);
-            this.className = 'modifiedClass';
-            console.log('Modositott className', this.className);
-            this.innerText.toggle = 'lecserelve';
-        });
-
-        /* --------------------------------------------------------- */
-        /* toogle segitsegevel 2 allapot kozott valthatok folyamatosan */
-        /* egy osztalyhoz hozzaadom az elemet majd elveszem, majd megint hozzaadom... */
-        pID.addEventListener('click', function(ev) {
-            this.classList.toggle('class5');
-        });
-
-        /* ------------------------------------------------------------ */
-        /*       btn.addEventListener('mouseover', function(ev) {
-                  console.log('Az esemeny ami tortent: ', ev);
-              });
-
-              window.addEventListener('resize', function(ev) {
-                  console.log('Az esemeny ami tortent: ', ev);
-              });
-
-              p.addEventListener('mousemove', function(ev) {
-                  console.log('Az esemeny ami tortent: ', ev);
-              }); */
     </script>
 </body>
 
