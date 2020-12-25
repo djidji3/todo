@@ -12,19 +12,22 @@ let todoListItems = document.querySelectorAll('.todo__list--item');
 let todoList = document.querySelector('.todo__list');
 let todoListPending = document.querySelector('.todo__list--pending');
 let todoListDone = document.querySelector('.todo__list--done');
-let todoListDeleteBtn = document.querySelectorAll('.todo__list--deleteBtn')
+let todoListDeleteBtn = document.querySelectorAll('.todo__list--deleteBtn');
+/* let todoListCheckBox = document.querySelectorAll('.todo__list--item>input'); */
 let taskRow = document.querySelectorAll('.todo__list--item');
 let footer = document.querySelector('.footer');
 let footerBtnComplete = document.querySelector('.footer__btn--complete');
 let footerBtnClear = document.querySelector('.footer__btn--clear');
 
-/* pelda a todos tomb-objectum tartalmara */
+/* pelda a todos tomb-objectum tartalma */
 let todos = [];
 /*  [{
+            id: 33245,
             task: 'Ebed Amcsival',
             status: true
         },
         {
+            id: 12345,
             text: 'Bevasarlas',
             done: false
         } 
@@ -78,6 +81,7 @@ const storageManager = {
 
 /* SEGEDFUGGVENY: localStorage adatainak beolvasasa 'todos' objectumba, ha vannak adatok*/
 function loadInput2Todos() {
+    /* SEGEDFUGGVENY: input mezo adatanak beolvasasa 'todos' objectumba*/
     /* ellenorzom hogy lett-e vmi beirva a bevitelimezobe */
     const task = newTaskInput.value;
     if (task === '') {
@@ -85,19 +89,24 @@ function loadInput2Todos() {
         return;
     }
     /* todo objectuma igy nez ki */
-    /* task attributom a bevitelimezo tartalma */
+    /* id mezo egy veletlen szam,mely egyedileg azonositja a bejegyzest */
+    /* task attribtum a bevitelimezo tartalma */
     /* ('status' megmondja hogy el van-e vegezve a feladat) */
+    let idCounter = Math.floor((Math.random() * 100000));
     const todo = {
+        id: idCounter,
         task: task,
         status: false
     };
 
     /* a todo objectumot feltoltjuk a todos tombbe */
     todos.push(todo);
-    /* li lista tartalmat uritjuk */
 
-    /* betoltjuk a todos tartalmat az li-be */
-    loadTodo2Div(todo);
+    /* div lista elemeket toroljuk, vagyis kitisztitjuk a listat */
+    removeListItems();
+
+    /* betoltjuk a todos tartalmat a pending es done div-be */
+    loadTodos2Divs();
 
     /*frissitjuk az elvegezendo feladatok szamat */
     refreshPendingItemsCounter();
@@ -106,45 +115,48 @@ function loadInput2Todos() {
     loadTodos2LocalStorage('feladatok', todos);
 };
 
-
-/* SEGEDFUGGVENY: egy todo-t megjeleniti a listaban */
-function loadTodo2Div(todo) {
-    let todoItem = document.createElement('div');
-    todoItem.className = 'todo__list--item';
-    todoListPending.appendChild(todoItem);
-    todoItem.innerHTML = `
-    <input type="checkbox" name="" id="">
-    <span class='task'>${todo.task}</span>
-    <button class='todo__list-deleteBtn'>Törlés</button>
-    `;
-
-    newTaskInput.value = '';
-
-    /*    let ul = document.createElement('ul');
-    todoListPending.appendChild(ul);
-    let li = document.createElement('LI');
-    li.className = 'todo__list--item';
-    li.innerHTML = todo.task;
-    ul.appendChild(li);
-    let span = document.createElement("SPAN");
-    span.className = "close";
-    li.appendChild('span');
-    let txt = document.createTextNode("\u00D7");
-    li.appendChild(txt);
-    newTaskInput.value = '';
- */
-};
-
-
-/* SEGEDFUGGVENY: todos-t  megjelenitese a listaban */
-function loadTodos2Li() {
+/* SEGEDFUGGVENY: todos-t  megjelenitese a div listaban */
+function loadTodos2Divs() {
     if (todos && Array.isArray(todos)) {
-        todos.forEach(item => loadTodo2Div(item));
+        todos.forEach(item => {
+            if (item.status === false) {
+                loadTodo2PendingDiv(item);
+            } else {
+                loadTodo2DoneDiv(item);
+            }
+        })
     }
 };
 
-/* SEGEDFUGGVENY: li listaelemek torlese a listaban */
-function removeLiItems() {
+/* SEGEDFUGGVENY: egy todo-t megjelenitese a pending listaban */
+function loadTodo2PendingDiv(todo) {
+    let todoItem = document.createElement('div');
+    todoItem.className = 'todo__list--item';
+    todoItem.setAttribute('data-id', `${todo.id}`);
+    todoListPending.appendChild(todoItem);
+    todoItem.innerHTML = `
+    <input class='' type="checkbox" name="" id="">
+    <span class='task'>${todo.task}</span>
+    <button data-id=${todo.id} class='todo__list-deleteBtn'>Törlés</button>
+    `;
+    newTaskInput.value = '';
+};
+
+/* SEGEDFUGGVENY: egy todo-t megjelenitese a done listaban */
+function loadTodo2DoneDiv(todo) {
+    let todoItem = document.createElement('div');
+    todoItem.className = 'todo__list--item';
+    todoItem.setAttribute('data-id', `${todo.id}`);
+    todoListDone.appendChild(todoItem);
+    todoItem.innerHTML = `
+    <input class='checkBox-doneItem' type="checkbox" name="" id="">
+    <span class='task'>${todo.task}</span>
+    `;
+};
+
+
+/* SEGEDFUGGVENY: div listaelemek torlese a listaban */
+function removeListItems() {
     let todoListItems = document.querySelectorAll('.todo__list--item');
     for (let i = 0; i < todoListItems.length; i += 1) {
         todoListItems[i].remove();
@@ -198,16 +210,17 @@ function deleteTodoItem(todo) {
 }
 
 
-/* torli az osszes feladatot, localstorage tartalmat, li elemeket */
+/* torli az osszes feladatot, localstorage tartalmat, div elemeket */
 /* clearAllTodos('feladatok'); */
 function clearAllTodos() {
     todos = [];
     storageManager.clearTodoItems('feladatok');
-    removeLiItems();
+    removeListItems();
     refreshPendingItemsCounter();
 };
 
-/* torol egy sort a feladat listabol */
+
+/* torol egy sort a feladat listabol, a tasknev alapjan */
 function deleteTaskRow(event) {
     if (event.target.className === 'todo__list-deleteBtn') {
         let task = (event.target.parentElement.children[1].innerText);
@@ -222,23 +235,50 @@ function deleteTaskRow(event) {
     loadTodos2LocalStorage('feladatok', todos);
 };
 
+/* 'bmelyik todo elem done checkbox-anak bekattintasakor hivodik meg */
+function setItem2Done(event) {
+    if (event.target.type === 'checkbox') {
+        const parent = event.target.parentElement;
+        console.log(parent);
+        const todoID = parent.getAttribute('data-id');
+        console.log(todoID);
+        const todoIndex = todos.findIndex(todo => todo.id == todoID);
+        console.log(todoIndex);
+        /* ez torleshez jo,modositani kell az athelyezeshet */
+        /*  parent.parentElement.appendChild(todoItem); */
+        /*  todos.splice(todoIndex, 1); */
+        loadTodos2LocalStorage;
+        loadTodos2Divs;
+
+
+
+    }
+};
+
+
+
+
+
 
 
 /*                            ESEMENYKEZELO FUGGVENYEK */
-/* + gombra kattintaskor */
+/* + gombra kattintaskor hivodik meg*/
 addButton.addEventListener('click', loadInput2Todos);
 
-/* 'Clear All' gombra kattintaskor */
+/* 'Clear All' gombra kattintaskor hivodik meg */
 footerBtnClear.addEventListener('click', clearAllTodos);
 
-/* bmelyik todo elemen valo kattintaskor hivodik meg */
+/* 'bmelyik todo elem checkbox-anak bekattintasakor hivodik meg */
+todoList.addEventListener('click', setItem2Done);
+
+/* bmelyik todo elem delete gombjara valo valo kattintaskor hivodik meg */
 todoList.addEventListener('click', deleteTaskRow);
 
 /*                                  MAIN */
 displayDayOfTheWeek();
 displayDate();
 loadLocalStorage2Todos();
-loadTodos2Li();
+loadTodos2Divs();
 refreshPendingItemsCounter();
 
 
@@ -297,12 +337,12 @@ for (i = 0; i < close.length; i++) {
 }
 
 // Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
+/* var list = document.querySelector('ul');
 list.addEventListener('click', function(ev) {
     if (ev.target.tagName === 'LI') {
         ev.target.classList.toggle('checked');
     }
-}, false);
+}, false); */
 
 // Create a new list item when clicking on the "Add" button
 function newElement() {
