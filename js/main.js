@@ -207,7 +207,10 @@ function refreshDoneItemsCounter() {
             counter += 1;
         }
     })
-    doneItemsCounter.innerText = Math.floor(counter / todos.length * 100);
+    if (counter === 0) {
+        doneItemsCounter.innerText = '0';
+    } else
+        doneItemsCounter.innerText = Math.floor(counter / todos.length * 100);
 };
 
 /* ----------------------------------------------------------------- */
@@ -224,7 +227,7 @@ function clearAllTodos() {
     storageManager.clearTodoItems('feladatok');
     removeListItems();
     refreshPendingItemsCounter();
-    refreshDoneItemsCounter()
+    refreshDoneItemsCounter();
 };
 
 
