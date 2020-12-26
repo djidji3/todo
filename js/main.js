@@ -13,10 +13,9 @@ let todoList = document.querySelector('.todo__list');
 let todoListPending = document.querySelector('.todo__list--pending');
 let todoListDone = document.querySelector('.todo__list--done');
 let todoListDeleteBtn = document.querySelectorAll('.todo__list--deleteBtn');
-/* let todoListCheckBox = document.querySelectorAll('.todo__list--item>input'); */
 let taskRow = document.querySelectorAll('.todo__list--item');
 let footer = document.querySelector('.footer');
-let footerBtnComplete = document.querySelector('.footer__btn--complete');
+showFleter = document.querySelector('.footer__btn--complete');
 let footerBtnClear = document.querySelector('.footer__btn--clear');
 
 /* pelda a todos tomb-objectum tartalma */
@@ -180,7 +179,7 @@ function loadLocalStorage2Todos() {
     }
 };
 
-/* frissiti a folyamatban levo task-ok szamat jelzo mezot */
+/* frissiti a pending-ben  levo task-ok szamat jelzo mezot */
 function refreshPendingItemsCounter() {
     let feladatok = todos;
     let counter = 0;
@@ -192,7 +191,7 @@ function refreshPendingItemsCounter() {
     pendingItemsCounter.innerText = counter;
 };
 
-/* frissiti az elvegzett task-ok szamat jelzo mezot */
+/* frissiti a kesz allapotu task-ok szamat jelzo mezot */
 function refreshDoneItemsCounter() {
     let feladatok = todos;
     let counter = 0;
@@ -236,25 +235,27 @@ function deleteTaskRow(event) {
 };
 
 /* 'bmelyik todo elem done checkbox-anak bekattintasakor hivodik meg */
-function setItem2Done(event) {
+function switchItemStatus(event) {
     if (event.target.type === 'checkbox') {
         const parent = event.target.parentElement;
-        console.log(parent);
+        /* console.log(parent); */
         const todoID = parent.getAttribute('data-id');
-        console.log(todoID);
+        /* console.log(todoID); */
         const todoIndex = todos.findIndex(todo => todo.id == todoID);
-        console.log(todoIndex);
-        /* ez torleshez jo,modositani kell az athelyezeshet */
-        /*  parent.parentElement.appendChild(todoItem); */
-        /*  todos.splice(todoIndex, 1); */
-        loadTodos2LocalStorage;
-        loadTodos2Divs;
-
-
-
+        /*  console.log(todoIndex); */
+        /* atbillentem a statust a masik ertekre */
+        todos[todoIndex].status = !todos[todoIndex].status;
+        removeListItems();
+        loadTodos2LocalStorage();
+        loadTodos2Divs();
+        refreshPendingItemsCounter();
     }
 };
 
+/* 'Show complete'gombjara valo kattintaskor hivodik meg */
+function showFooterBtnCompleted() {
+
+};
 
 
 
@@ -269,10 +270,17 @@ addButton.addEventListener('click', loadInput2Todos);
 footerBtnClear.addEventListener('click', clearAllTodos);
 
 /* 'bmelyik todo elem checkbox-anak bekattintasakor hivodik meg */
-todoList.addEventListener('click', setItem2Done);
+todoList.addEventListener('click', switchItemStatus);
 
-/* bmelyik todo elem delete gombjara valo valo kattintaskor hivodik meg */
+/* bmelyik todo elem delete gombjara valo kattintaskor hivodik meg */
 todoList.addEventListener('click', deleteTaskRow);
+
+/* 'Show complete'gombjara valo kattintaskor hivodik meg */
+todoList.showCompletedDiv('clishowFk', showFooterBtnCompleted);
+
+
+
+
 
 /*                                  MAIN */
 displayDayOfTheWeek();
