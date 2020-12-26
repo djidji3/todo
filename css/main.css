@@ -125,6 +125,11 @@ ul li.checked {
     display: none;
 }
 
+.todo__list--done {
+    color: red;
+    text-decoration: line-through;
+}
+
 */ ul li.checked::before {
     content: '';
     position: absolute;
