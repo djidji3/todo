@@ -15,7 +15,7 @@ let todoListDone = document.querySelector('.todo__list--done');
 let todoListDeleteBtn = document.querySelectorAll('.todo__list--deleteBtn');
 let taskRow = document.querySelectorAll('.todo__list--item');
 let footer = document.querySelector('.footer');
-showFleter = document.querySelector('.footer__btn--complete');
+let footerBtnCompleted = document.querySelector('.footer__btn--complete');
 let footerBtnClear = document.querySelector('.footer__btn--clear');
 
 /* pelda a todos tomb-objectum tartalma */
@@ -253,8 +253,9 @@ function switchItemStatus(event) {
 };
 
 /* 'Show complete'gombjara valo kattintaskor hivodik meg */
+/* megjeleniti vagy elrejti a 'todo__list--done' osztalyt */
 function showFooterBtnCompleted() {
-
+    todoListDone.classList.toggle('list__done--hide');
 };
 
 
@@ -276,7 +277,7 @@ todoList.addEventListener('click', switchItemStatus);
 todoList.addEventListener('click', deleteTaskRow);
 
 /* 'Show complete'gombjara valo kattintaskor hivodik meg */
-todoList.showCompletedDiv('clishowFk', showFooterBtnCompleted);
+footerBtnCompleted.addEventListener('click', showFooterBtnCompleted);
 
 
 
