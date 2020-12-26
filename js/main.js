@@ -207,7 +207,7 @@ function refreshDoneItemsCounter() {
             counter += 1;
         }
     })
-    doneItemsCounter.innerText = counter;
+    doneItemsCounter.innerText = Math.floor(counter / todos.length * 100);
 };
 
 /* ----------------------------------------------------------------- */
