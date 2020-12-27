@@ -141,7 +141,7 @@ function loadTodo2PendingDiv(todo) {
     todoItem.innerHTML = `
     <input class='' type="checkbox" name="" id="">
     <span class='task'>${todo.task}</span>
-    <button data-id=${todo.id} class='todo__list-deleteBtn'>&#10006;</button>
+    <button data-id=${todo.id} class='todo__list-deleteBtn'>&#128465;</button>
     `;
     newTaskInput.value = '';
 };
@@ -154,8 +154,9 @@ function loadTodo2DoneDiv(todo) {
     todoItem.setAttribute('data-id', `${todo.id}`);
     todoListDone.appendChild(todoItem);
     todoItem.innerHTML = `
-    <input class='checkBox-doneItem' type="checkbox" name="" id="" >
+    <input class='checkBox-doneItem' type="checkbox" name="" id="" checked>
     <span class='task'>${todo.task}</span>
+    <input class='checkBox-doneItem' type="checkbox" name="" id="" checked>
     `;
 };
 

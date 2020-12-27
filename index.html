@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TODO</title>
-    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="./css/main.css">
-    <style></style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+    </style>
+
 </head>
 
 <body>
@@ -57,12 +60,15 @@
             </div>
 
             <!-- <p> <span class="doneItemsCounter">0 </span> feladatot végeztél el</p> -->
-            <p> Feladataid <span class="doneItemsCounter">0 </span> %-a készült el !</p>
+            <div class="doneItemsCounterDiv">
+                <p> Feladataid <span class="doneItemsCounter">0 </span> %-a készült el !</p>
+
+            </div>
 
             <div class="todo__list--done">
                 <!--  
                 <div class="todo__list--item">
-                    <input class='checkbox-checked' type="checkbox">
+                    <input class='checkbox-checked' type="checkbox" checked>
                     <span> t10 Feladat </span>
                 </div>
                    -->

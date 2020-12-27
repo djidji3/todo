@@ -1,10 +1,6 @@
-/* @font-face {
-    font-family: myFont;
-    src: url(../fonts/Cyberverse.otf);
-} */
-
 html {
     font-size: 16px;
+    font-family: 'Roboto', sans-serif;
 }
 
 * {
@@ -14,16 +10,10 @@ html {
 body {
     margin: 0;
     background: rgb(84, 146, 170);
-    font-family: myFont;
     height: 100%;
     color: white;
     text-align: center;
     min-width: 300px;
-}
-
-header {
-    font-style: oblique;
-    font-weight: 600;
 }
 
 .container {
@@ -44,7 +34,8 @@ header {
     width: 75%;
     padding: 10px;
     float: left;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .addButton {
@@ -58,7 +49,9 @@ header {
     float: left;
     text-align: center;
     cursor: pointer;
+    font-size: 1rem;
     transition: 1s;
+    margin-bottom: 10px;
 }
 
 .addButton:hover {
@@ -84,6 +77,7 @@ header {
     border: 5px solid rgb(143, 17, 17);
     width: 50%;
     color: wheat;
+    transition: 1s;
 }
 
 .footer__btn--complete:hover {
@@ -91,6 +85,7 @@ header {
     color: hotpink;
     cursor: pointer;
     border: 5px solid rgb(228, 27, 27);
+    box-shadow: 0 0 4px 4px rgb(46, 19, 88);
 }
 
 .footer__btn--clear {
@@ -100,6 +95,7 @@ header {
     border: 5px solid rgb(143, 17, 17);
     width: 50%;
     color: wheat;
+    transition: 1s;
 }
 
 .footer__btn--clear:hover {
@@ -107,20 +103,33 @@ header {
     color: hotpink;
     cursor: pointer;
     border: 5px solid rgb(228, 27, 27);
+    box-shadow: 0 0 4px 4px rgb(46, 19, 88);
 }
 
 .pendingItemsCounterDiv {
     margin: 5px;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.doneItemsCounterDiv {
+    margin: 5px;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.todo__list {
+    margin: 0px;
+    padding: 0;
 }
 
 .todo__list--item {
     display: flex;
     justify-content: space-between;
     margin: 0;
-    cursor: pointer;
     position: relative;
     padding: 12px 8px 12px 40px;
-    transition: 2s;
+    transition: 1s;
     margin-block-start: 1em;
     margin-block-end: 1em;
     padding-inline-start: 40px;
@@ -128,24 +137,27 @@ header {
     border-radius: 20px;
 }
 
+.todo__list--item:hover {
+    background-color: #464da3;
+    box-shadow: 2px 2px rgb(46, 19, 88);
+}
+
 .todo__list--item>input {
     width: 15px;
 }
 
+.todo__list--item>input:hover {
+    cursor: pointer;
+}
+
 .todo__list-deleteBtn {
-    width: 50px;
-}
-
-.todo__list--item>input.checked {
-    background: #888;
-    color: #fff;
-    text-decoration: line-through;
-}
-
-.todo__list--item.checked {
-    background: rgb(238, 235, 243);
-    color: #fff;
-    text-decoration: line-through;
+    width: 35px;
+    margin: 0px;
+    font-size: 1rem;
+    opacity: 100%;
+    background-color: #666ba5;
+    color: white;
+    padding: 0;
 }
 
 .todo__list--pending {
@@ -158,54 +170,15 @@ header {
     border-radius: 18px;
 }
 
-.todo__list--item.checked::before {
-    content: '';
-    position: absolute;
-    border-color: #fff;
-    border-style: solid;
-    border-width: 0 2px 2px 0;
-    top: 10px;
-    left: 16px;
-    transform: rotate(45deg);
-    height: 15px;
-    width: 7px;
-}
-
 .list__done--hide {
     display: none;
 }
 
 .todo__list--done {
-    color: rgb(100, 41, 41);
+    color: white;
     text-decoration: line-through;
 }
 
-ul li {
+.todo__list-deleteBtn:hover {
     cursor: pointer;
-    position: relative;
-    padding: 12px 8px 12px 40px;
-    list-style-type: none;
-    background: #eee;
-    font-size: 18px;
-    transition: 2s;
-    user-select: none;
-}
-
-ul li.checked {
-    background: #888;
-    color: #fff;
-    text-decoration: line-through;
-}
-
-*/ ul li.checked::before {
-    content: '';
-    position: absolute;
-    border-color: #fff;
-    border-style: solid;
-    border-width: 0 2px 2px 0;
-    top: 10px;
-    left: 16px;
-    transform: rotate(45deg);
-    height: 15px;
-    width: 7px;
 }
