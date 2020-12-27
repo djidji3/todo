@@ -1,2 +1,2 @@
 # todo
-napi teendo lista - localStorage
+napi teendo lista - localStorage -felhsznalasaval
