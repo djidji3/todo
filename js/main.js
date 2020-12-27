@@ -156,7 +156,7 @@ function loadTodo2DoneDiv(todo) {
     todoItem.innerHTML = `
     <input class='checkBox-doneItem' type="checkbox" name="" id="" checked>
     <span class='task'>${todo.task}</span>
-    <input class='checkBox-doneItem' type="checkbox" name="" id="" checked>
+    <button data-id=${todo.id} class='todo__list-deleteBtn'>&#128465;</button>
     `;
 };
 

@@ -29,7 +29,7 @@ body {
 
 .newTaskInput {
     margin: 0;
-    border: 3px solid greenyellow;
+    border: 5px solid rgb(143, 17, 17);
     border-radius: 10px 0px 0px 10px;
     width: 75%;
     padding: 10px;
@@ -40,7 +40,7 @@ body {
 
 .addButton {
     margin: 0;
-    border: 3px solid greenyellow;
+    border: 5px solid rgb(143, 17, 17);
     border-radius: 0px 10px 10px 0px;
     width: 25%;
     padding: 10px;
@@ -165,18 +165,17 @@ body {
     border-radius: 18px;
 }
 
-.todo__list--done {
-    background-color: rgb(106, 100, 134);
+.todo__list--done .task{
+    background-color:rgb(85, 66, 138);
     border-radius: 18px;
+    color: white;
+    text-decoration: line-through;
+ 
 }
+
 
 .list__done--hide {
     display: none;
-}
-
-.todo__list--done {
-    color: white;
-    text-decoration: line-through;
 }
 
 .todo__list-deleteBtn:hover {
