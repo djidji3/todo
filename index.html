@@ -13,23 +13,40 @@
 
 <body>
 
+    <header>
+        <div>
+            <h1>
+                FELADAT MANAGER
+            </h1>
+        </div>
+    </header>
     <div class="container">
-        <div class="header">Napi feladat manager</div>
+
+
         <!--  datum ido nap megjelenites -->
-        <h3 class="body__day">nap</h3>
-        <p class="body__date">date</p>
+        <div>
+
+            <h3 class="body__day">nap</h3>
+        </div>
+        <div>
+            <h3>
+
+                <p class="body__date">date</p>
+            </h3>
+        </div>
 
         <!-- input new task mezo -->
         <div class="body__todo-insert">
             <input class="newTaskInput" type="text" placeholder="new task ...">
-            <button class="addButton">+</button>
+            <button class="addButton">&#10133</button>
         </div>
 
 
         <!-- todo list js-bol kiiratva -->
         <div class="todo__list">
-
-            <p> <span class="pendingItemsCounter">0 </span> feladat vár elvégzésre</p>
+            <div class='pendingItemsCounterDiv'>
+                <p> <span class="pendingItemsCounter">0 </span> feladat vár elvégzésre</p>
+            </div>
 
             <div class="todo__list--pending">
                 <!-- <div class="todo__list--item">
@@ -50,19 +67,17 @@
                 </div>
                    -->
             </div>
-
+        </div>
+        <!-- footer menu -->
+        <div class="footer">
+            <button class="footer__btn--complete">Show / Hide completed</button>
+            <button class="footer__btn--clear"> Delete all</button>
         </div>
 
-
     </div>
+    <p>&#169; Djidji 2021</p>
 
 
-    <!-- footer menu -->
-    <div class="footer">
-        <button class="footer__btn--complete">Show/Hide completed</button>
-        <button class="footer__btn--clear"> clear all</button>
-    </div>
-    </div>
 
 
 
